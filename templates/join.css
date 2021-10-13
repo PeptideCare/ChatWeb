@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap');
+
+body {
+    font-family: 'East Sea Dokdo', cursive;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.container {
+    max-width: 300px;
+    width: 230px;
+}
+.title {
+    width: 100%;
+}
+.title span {
+    font-size: 70px;
+}
+.title span:nth-child(1) {
+    color: brown;
+}
+
+.title span:nth-child(2) {
+    color: crimson;
+}
+
+.info {}
+
+.info input {
+    display: block;
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 1px solid #b7a93b;
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 15px;
+}
+
+.check_id input:nth-child(1) {
+    width: 80%;
+    float: left;
+}
+
+.check_id input:nth-child(2) {
+    width: 20%;
+    float: right;
+    background-color: antiquewhite;
+}
+
+.check_phone input:nth-child(1) {
+    width: 80%;
+    float: left;
+}
+
+.check_phone input:nth-child(2) {
+    width: 20%;
+    float: right;
+    background-color: antiquewhite;
+}
+
+.info form button,
+.info button{
+    width: 40%;
+    border: 1px solid;
+    padding: 7px 10px 7px 10px;
+    background-color: wheat;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 20px;
+}
