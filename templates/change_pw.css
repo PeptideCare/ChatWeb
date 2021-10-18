@@ -39,13 +39,15 @@ body {
     color: black;
 }
 
-.info {}
+.info {
+    margin-top: 40px;
+}
 
 .info input {
     display: block;
     padding: 5px;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
@@ -53,38 +55,15 @@ body {
     font-size: 15px;
 }
 
-.check_id input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
 
-.check_id input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.check_phone input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
-
-.check_phone input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.info form button,
-.info button{
+.info form button{
     width: 40%;
     border: 1px solid;
     padding: 7px 10px 7px 10px;
     background-color: wheat;
     border-radius: 5px;
     margin: 10px;
+    margin-top: 100px;
     cursor: pointer;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 20px;

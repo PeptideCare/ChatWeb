@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap');
 
 body {
+    margin: 0;
     font-family: 'East Sea Dokdo', cursive;
     position: absolute;
     top: 50%;
@@ -10,14 +11,15 @@ body {
 }
 
 .container {
-    max-width: 300px;
-    width: 230px;
+    max-width: 350px;
+    width: 350px;
 }
 .title {
     width: 100%;
+    margin-bottom: 150px;
 }
 .title p {
-    font-size: 50px;
+    font-size: 70px;
 }
 .title p span:nth-child(1) {
     color: brown;
@@ -32,13 +34,18 @@ body {
 .info input {
     display: block;
     padding: 5px;
-    width: 100%;
+    width: 80%;
     margin-bottom: 15px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
     font-family: 'East Sea Dokdo', cursive;
-    font-size: 15px;
+    font-size: 20px;
+    display: inline-block;
+}
+
+.info input:nth-child(2) {
+    margin-bottom: 130px;
 }
 .info form button,
 .info button{

@@ -45,7 +45,8 @@ body {
     display: block;
     padding: 5px;
     width: 100%;
-    margin-bottom: 15px;
+    margin-top: 80px;
+    margin-bottom: 100px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
@@ -53,32 +54,8 @@ body {
     font-size: 15px;
 }
 
-.check_id input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
 
-.check_id input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.check_phone input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
-
-.check_phone input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.info form button,
-.info button{
+.info form button{
     width: 40%;
     border: 1px solid;
     padding: 7px 10px 7px 10px;

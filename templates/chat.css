@@ -17,16 +17,16 @@ body {
 .title {
     width: 100%;
     position: relative;
-}
-.title span {
-    font-size: 70px;
-}
-.title span:nth-child(1) {
-    color: brown;
+    margin-bottom: 50px;
 }
 
-.title span:nth-child(2) {
-    color: crimson;
+.title p{
+    font-size: 20px;
+    margin: 0;
+}
+
+.title p:nth-child(2) {
+    font-size: 30px;
 }
 
 .title i {
@@ -39,46 +39,30 @@ body {
     color: black;
 }
 
-.info {}
+.chat {
+    float: left;
+    overflow: hidden;
+}
+
+.chat p{
+    margin: 0;
+}
 
 .info input {
     display: block;
     padding: 5px;
-    width: 100%;
-    margin-bottom: 15px;
+    width: 95%;
+    height: 200px;
+    margin: 10px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
     font-family: 'East Sea Dokdo', cursive;
-    font-size: 15px;
+    font-size: 20px;
 }
 
-.check_id input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
 
-.check_id input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.check_phone input:nth-child(1) {
-    width: 80%;
-    float: left;
-}
-
-.check_phone input:nth-child(2) {
-    width: 20%;
-    float: right;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.info form button,
-.info button{
+.info form button{
     width: 40%;
     border: 1px solid;
     padding: 7px 10px 7px 10px;
@@ -88,4 +72,5 @@ body {
     cursor: pointer;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 20px;
+    margin-top: 20px;
 }
