@@ -11,13 +11,13 @@ body {
 }
 
 .container {
-    max-width: 300px;
-    width: 100%;
+    max-width: 350px;
+    width: 350px;
 }
 .title {
     width: 100%;
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 140px;
 }
 .title span {
     font-size: 70px;
@@ -64,5 +64,5 @@ body {
     cursor: pointer;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 20px;
-    margin-top: 20px;
+    margin-top: 120px;
 }

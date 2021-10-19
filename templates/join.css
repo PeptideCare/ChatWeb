@@ -11,12 +11,13 @@ body {
 }
 
 .container {
-    max-width: 300px;
-    width: 100%;
+    max-width: 350px;
+    width: 350px;
 }
 .title {
     width: 100%;
     position: relative;
+    margin-bottom: 70px;
 }
 .title span {
     font-size: 70px;
@@ -44,41 +45,37 @@ body {
 .info input {
     display: block;
     padding: 5px;
-    width: 100%;
+    width: 80%;
     margin-bottom: 15px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 15px;
+    display: inline-block;
 }
 
 .check_id input:nth-child(1) {
-    width: 80%;
-    float: left;
+    width: 60%;
 }
 
 .check_id input:nth-child(2) {
     width: 20%;
-    float: right;
     background-color: antiquewhite;
     cursor: pointer;
 }
 
 .check_phone input:nth-child(1) {
-    width: 80%;
-    float: left;
+    width: 60%;
 }
 
 .check_phone input:nth-child(2) {
     width: 20%;
-    float: right;
     background-color: antiquewhite;
     cursor: pointer;
 }
 
-.info form button,
-.info button{
+.info form button {
     width: 40%;
     border: 1px solid;
     padding: 7px 10px 7px 10px;
@@ -88,4 +85,5 @@ body {
     cursor: pointer;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 20px;
+    margin-top: 50px;
 }

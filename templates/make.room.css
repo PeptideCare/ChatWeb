@@ -11,13 +11,13 @@ body {
 }
 
 .container {
-    max-width: 300px;
-    width: 100%;
+    max-width: 350px;
+    width: 350px;
 }
 .title {
     width: 100%;
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 150px;
 }
 .title span {
     font-size: 70px;
@@ -43,14 +43,14 @@ body {
 .info input {
     display: block;
     padding: 5px;
-    width: 95%;
+    width: 80%;
     margin: 10px;
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #b7a93b;
     font-family: 'East Sea Dokdo', cursive;
-    font-size: 15px;
     font-size: 20px;
+    display: inline-block;
 }
 
 
@@ -64,5 +64,5 @@ body {
     cursor: pointer;
     font-family: 'East Sea Dokdo', cursive;
     font-size: 20px;
-    margin-top: 80px;
+    margin-top: 170px;
 }

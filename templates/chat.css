@@ -11,13 +11,13 @@ body {
 }
 
 .container {
-    max-width: 300px;
-    width: 100%;
+    max-width: 350px;
+    width: 350px;
 }
 .title {
     width: 100%;
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 200px;
 }
 
 .title p{
