@@ -18,7 +18,7 @@
        </div>
        
        <div class="info">
-           <form action="">
+           <form action="/login">
                <input type="text" name="member_id" placeholder="ID">
                <input type="password" name="member_pw" placeholder="PW"> 
                <button>로그인</button>
