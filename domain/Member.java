@@ -11,6 +11,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Member {
 
+    public Member(String id, String pw, String nickname, String name, String sex, String birth, String phone_number, String school_name) {
+        this.id = id;
+        this.pw = pw;
+        this.nickname = nickname;
+        this.name = name;
+        this.sex = sex;
+        this.birth = birth;
+        this.phone_number = phone_number;
+        this.school_name = school_name;
+    }
+
     @Id
     @Column(name = "member_id")
     private String id;

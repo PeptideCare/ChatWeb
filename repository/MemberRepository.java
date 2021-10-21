@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,7 +31,12 @@ public class MemberRepository {
     public Member findById(String id) {
 
         // 널체크
-        return em.find(Member.class, id);
+        Member member = em.find(Member.class, id);
+        if (member.getId() == null) {
+            return new Member();
+        } else {
+            return member;
+        }
     }
 
     //전체 멤버 조회
