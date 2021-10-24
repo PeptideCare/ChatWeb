@@ -32,7 +32,7 @@ public class MemberRepository {
 
         // 널체크
         Member member = em.find(Member.class, id);
-        if (member.getId() == null) {
+        if (member == null) {
             return new Member();
         } else {
             return member;

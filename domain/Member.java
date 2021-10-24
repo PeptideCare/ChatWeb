@@ -2,19 +2,19 @@ package com.imdev.webchat.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @RequiredArgsConstructor
 public class Member {
 
-    public Member(String id, String pw, String nickname, String name, String sex, String birth, String phone_number, String school_name) {
+    public Member(String id, String pw, String name, String sex, String birth, String phone_number, String school_name) {
         this.id = id;
         this.pw = pw;
-        this.nickname = nickname;
         this.name = name;
         this.sex = sex;
         this.birth = birth;

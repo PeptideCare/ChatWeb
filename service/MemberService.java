@@ -5,17 +5,20 @@ import com.imdev.webchat.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Getter
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
     //회원가입
+    @Transactional
     public String join(Member member) {
         // 중복 회원일때
         if (!validateMember(member)) {
@@ -28,7 +31,7 @@ public class MemberService {
     public boolean validateMember(Member member) {
         Member findMember = findById(member.getId());
         //존재하는 회원일때
-        if (findMember != null) {
+        if (findMember.getId() != null) {
             return false;
         }
         return true;
