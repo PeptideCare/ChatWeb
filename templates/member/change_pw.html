@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,8 +18,8 @@
        </div>
        
        <div class="info">
-           <form action="">
-               <input type="password" name="member_pw" placeholder="새로운 비밀번호">
+           <form action="/member/change_con" method="post" th:object="${member}">
+               <input type="password" name="member_pw" placeholder="새로운 비밀번호" th:field="*{pw}">
                <input type="password" name="member_pw2" placeholder="확인">
                <button>비밀번호변경</button>
            </form>

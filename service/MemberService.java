@@ -46,4 +46,18 @@ public class MemberService {
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
+
+    //탈퇴
+    @Transactional
+    public void remove(String id) {
+        Member findMember = memberRepository.findById(id);
+        memberRepository.delete(findMember);
+    }
+
+    // 비밀번호 변경
+    @Transactional
+    public void change_pw(String id, String pw) {
+        Member findMember = memberRepository.findById(id);
+        findMember.setPw(pw);
+    }
 }

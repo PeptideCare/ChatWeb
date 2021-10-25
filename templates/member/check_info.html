@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,11 +17,11 @@
            <span>M</span> <span>M</span>
        </div>
        
-       <div class="info">
-           <form action="">
-               <input type="password" name="member_pw" placeholder="비밀번호">
-               <button>회원정보수정</button>
-               <button>회원탈퇴</button>
+       <div class="info" >
+           <form method="post" th:object="${member}">
+               <input type="password" name="member_pw" placeholder="비밀번호" th:field="*{pw}" >
+               <button onclick="javascript: form.action='/member/change';"/>회원정보수정</button>
+               <button onclick="javascript: form.action='/member/remove';"/>회원탈퇴</button>
            </form>
        </div>
    </div>
