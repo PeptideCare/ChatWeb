@@ -1,17 +1,19 @@
 package com.imdev.webchat.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    @RequestMapping("/")
+
+    @GetMapping("/main")
     public String home() {
-        return "login";
+        return "chat/main";
     }
 
-    @RequestMapping("/login")
-    public String login() {
-        return "main";
+    @GetMapping("/find")
+    public String room() {
+        return "chat/new_chat";
     }
+
 }

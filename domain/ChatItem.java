@@ -4,19 +4,20 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @RequiredArgsConstructor
 public class ChatItem {
 
+    public ChatItem(Member member, Chat chat) {
+        this.member = member;
+        this.chat = chat;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
-
-    private LocalDateTime time;
-    private int num;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

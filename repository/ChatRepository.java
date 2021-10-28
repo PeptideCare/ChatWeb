@@ -37,4 +37,11 @@ public class ChatRepository {
                 .getResultList();
     }
 
+    //학교별 모든 방 조회
+    public List<Chat> findAllBySchoolName(String schoolName) {
+        return em.createQuery("select c from Chat c where c.school_name = :schoolName", Chat.class)
+                .setParameter("schoolName", schoolName)
+                .getResultList();
+    }
+
 }
