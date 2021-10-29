@@ -73,7 +73,7 @@ public class MemberController {
         // 로그인 성공
         else if (pw.equals(findMember.getPw())) {
             session.setAttribute("memberId", findMember.getId());
-            return "chat/main";
+            return "redirect:/chat/find/mine";
         }
         // 비밀번호 일치하지 않을 시
         else {

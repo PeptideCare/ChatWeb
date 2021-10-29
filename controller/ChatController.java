@@ -1,14 +1,18 @@
 package com.imdev.webchat.controller;
 
 import com.imdev.webchat.domain.Chat;
+import com.imdev.webchat.domain.ChatItem;
 import com.imdev.webchat.domain.Member;
+import com.imdev.webchat.service.ChatItemService;
 import com.imdev.webchat.service.ChatService;
 import com.imdev.webchat.service.MemberService;
+import com.imdev.webchat.soket.ChatRoom;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +25,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ChatItemService chatItemService;
     private final MemberService memberService;
 
     // 방만들기
@@ -55,4 +60,25 @@ public class ChatController {
         return "chat/new_chat";
     }
 
+    // 내 채팅방 조회
+    @GetMapping("/chat/find/mine")
+    public String findAllById(Model model, HttpSession session) {
+
+        String memberId = (String)session.getAttribute("memberId");
+        List<ChatItem> chats = chatItemService.findAllById(memberId);
+        model.addAttribute("chatList", chats);
+
+        return "chat/main";
+    }
+
+    // 채팅방 입장
+    @GetMapping("/chat/enter/{id}")
+    public String chat(@PathVariable Long id, Model model) {
+        Chat findChat = chatService.findById(id);
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setRoomId(findChat.getId());
+        chatRoom.setName(findChat.getName());
+        model.addAttribute("chat", chatRoom);
+        return "chat/chat";
+    }
 }

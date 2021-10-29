@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Manner Matter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../css/main.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,30 +27,12 @@
                <th>No.</th>
                <th>Name</th>
                <th> </th>
-               <tr>
-                   <td>1</td>
-                   <td>이름</td>
-                   <td>입장</td>
-               </tr>
-               <tr>
-                   <td>2</td>
-                   <td>이름</td>
-                   <td>입장</td>
-               </tr>
-               <tr>
-                   <td>3</td>
-                   <td>이름</td>
-                   <td>입장</td>
-               </tr>
-               <tr>
-                   <td>4</td>
-                   <td>이름</td>
-                   <td>입장</td>
-               </tr>
-               <tr>
-                   <td>5</td>
-                   <td>이름</td>
-                   <td>입장</td>
+               <tr th:each="item : ${chatList}">
+                   <td th:text="${item.chat.id}"></td>
+                   <td th:text="${item.chat.name}">이름</td>
+                   <td>
+                       <a href="#" th:href="@{/chat/enter/{id}/(id=${item.chat.id})}">입장</a>
+                   </td>
                </tr>
            </table>
        </div>

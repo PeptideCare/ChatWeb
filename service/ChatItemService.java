@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Getter
@@ -33,6 +35,11 @@ public class ChatItemService {
 
         ChatItem chatItem = new ChatItem(member, findChat);
         chatItemRepository.save(chatItem);
+    }
+
+    // 회원별 모든 방 조회
+    public List<ChatItem> findAllById(String id) {
+        return chatItemRepository.findAllById(id);
     }
 
 }

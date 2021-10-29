@@ -33,6 +33,13 @@ public class ChatItemRepository {
                 .getResultList();
     }
 
+    // 회원 아이디별 모든 조회
+    public List<ChatItem> findAllById(String id) {
+        return em.createQuery("select ci from ChatItem ci join fetch ci.chat where ci.member.id = :id")
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     //삭제
     public void delete(Chat chat) {
         em.remove(chat);
