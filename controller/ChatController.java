@@ -6,7 +6,6 @@ import com.imdev.webchat.domain.Member;
 import com.imdev.webchat.service.ChatItemService;
 import com.imdev.webchat.service.ChatService;
 import com.imdev.webchat.service.MemberService;
-import com.imdev.webchat.soket.ChatRoom;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -75,10 +74,7 @@ public class ChatController {
     @GetMapping("/chat/enter/{id}")
     public String chat(@PathVariable Long id, Model model) {
         Chat findChat = chatService.findById(id);
-        ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setRoomId(findChat.getId());
-        chatRoom.setName(findChat.getName());
-        model.addAttribute("chat", chatRoom);
+        model.addAttribute("chat", findChat);
         return "chat/chat";
     }
 }
