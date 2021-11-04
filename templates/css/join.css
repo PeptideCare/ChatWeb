@@ -17,7 +17,7 @@ body {
 .title {
     width: 100%;
     position: relative;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 .title span {
     font-size: 70px;
@@ -55,21 +55,15 @@ body {
     display: inline-block;
 }
 
-.check_id input:nth-child(1) {
+.check_id input:nth-child(1),
+.check_phone input:nth-child(1),
+.check_nickname input:nth-child(1){
     width: 60%;
 }
 
-.check_id input:nth-child(2) {
-    width: 20%;
-    background-color: antiquewhite;
-    cursor: pointer;
-}
-
-.check_phone input:nth-child(1) {
-    width: 60%;
-}
-
-.check_phone input:nth-child(2) {
+.check_id input:nth-child(2),
+.check_phone input:nth-child(2),
+.check_nickname input:nth-child(2){
     width: 20%;
     background-color: antiquewhite;
     cursor: pointer;

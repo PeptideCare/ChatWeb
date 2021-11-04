@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,15 +35,13 @@ public class MemberController {
         }
 
         Member member = new Member(form.getId(), form.getPw(),
-                form.getName(), form.getSex(), form.getBirth(), form.getPhone_number(), form.getSchool_name());
+                form.getName(), form.getNickname(), form.getSex(), form.getBirth(), form.getPhone_number(), form.getSchool_name());
         String id = memberService.join(member);
 
         //중복회원
         if (id.equals("0")) {
-            System.out.println("중복");
-            return "redirect:/member/new";
+            return "redirect:/member/mine";
         } else {
-            System.out.println("가입성공");
         }
         return "redirect:/member/login";
     }
@@ -64,15 +63,15 @@ public class MemberController {
         String id = form.getId();
         String pw = form.getPw();
 
-        Member findMember = memberService.findById(id);
+        Optional<Member> findMember = memberService.findById(id);
 
         // 회원이 아닐 시
-        if (findMember == null) {
+        if (findMember.isEmpty()) {
             return "member/login";
         }
         // 로그인 성공
-        else if (pw.equals(findMember.getPw())) {
-            session.setAttribute("memberId", findMember.getId());
+        else if (pw.equals(findMember.get().getPw())) {
+            session.setAttribute("memberId", findMember.get().getId());
             return "redirect:/chat/find/mine";
         }
         // 비밀번호 일치하지 않을 시
@@ -93,7 +92,7 @@ public class MemberController {
     public String check_pw(@Valid Member member, HttpSession session) {
 
         String id = (String)session.getAttribute("memberId");
-        Member findMember = memberService.findById(id);
+        Member findMember = memberService.findById(id).get();
 
         // 비밀번호 일치
         if (findMember.getPw().equals(member.getPw())) {
@@ -111,7 +110,7 @@ public class MemberController {
     public String check_remove(@Valid Member member, HttpSession session) {
 
         String id = (String)session.getAttribute("memberId");
-        Member findMemer = memberService.findById(id);
+        Member findMemer = memberService.findById(id).get();
 
         // 비밀번호 일치
         if (findMemer.getPw().equals(member.getPw())) {
@@ -151,7 +150,7 @@ public class MemberController {
     public String remove(@Valid Member member, HttpSession session) {
         String id = (String)session.getAttribute("memberId");
 
-        Member findMember = memberService.findById(id);
+        Member findMember = memberService.findById(id).get();
         // 비밀번호 일치
         if (findMember.getPw().equals(member.getPw())) {
             memberService.remove(id);

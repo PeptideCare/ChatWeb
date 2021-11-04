@@ -40,6 +40,15 @@ public class ChatItemRepository {
                 .getResultList();
     }
 
+    //회원아이디, 채팅아이디로 채팅방 여부 확인
+    public boolean findByUserIdAndChatId(String memberId, Long chatId) {
+        boolean check = em.createQuery("select ci from ChatItem ci where ci.member.id = :memberId and ci.chat.id = :chatId", ChatItem.class)
+                .setParameter("memberId", memberId)
+                .setParameter("chatId", chatId)
+                .getResultList().isEmpty();
+        return check;
+    }
+
     //삭제
     public void delete(Chat chat) {
         em.remove(chat);

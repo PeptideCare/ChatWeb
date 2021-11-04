@@ -12,10 +12,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Member {
 
-    public Member(String id, String pw, String name, String sex, String birth, String phone_number, String school_name) {
+    public Member(String id, String pw, String name, String nickname, String sex, String birth, String phone_number, String school_name) {
         this.id = id;
         this.pw = pw;
         this.name = name;
+        this.nickname = nickname;
         this.sex = sex;
         this.birth = birth;
         this.phone_number = phone_number;

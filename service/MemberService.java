@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,16 +30,16 @@ public class MemberService {
 
     //중복 회원 방지
     public boolean validateMember(Member member) {
-        Member findMember = findById(member.getId());
+        Optional<Member> findMember = findById(member.getId());
         //존재하는 회원일때
-        if (findMember.getId() != null) {
+        if (!findMember.isEmpty()) {
             return false;
         }
         return true;
     }
 
     //조회
-    public Member findById(String id) {
+    public Optional<Member> findById(String id) {
         return memberRepository.findById(id);
     }
 
@@ -50,14 +51,14 @@ public class MemberService {
     //탈퇴
     @Transactional
     public void remove(String id) {
-        Member findMember = memberRepository.findById(id);
+        Member findMember = memberRepository.findById(id).get();
         memberRepository.delete(findMember);
     }
 
     // 비밀번호 변경
     @Transactional
     public void change_pw(String id, String pw) {
-        Member findMember = memberRepository.findById(id);
+        Member findMember = memberRepository.findById(id).get();
         findMember.setPw(pw);
     }
 }

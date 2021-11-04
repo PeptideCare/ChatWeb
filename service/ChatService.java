@@ -48,4 +48,9 @@ public class ChatService {
         Chat findChat = chatRepository.findById(id);
         return findChat;
     }
+
+    // 제목별 모든 방 조회
+    public List<Chat> findAllBySearch(String Search, String schoolName) {
+        return chatRepository.findAllBySearch(Search, schoolName);
+    }
 }

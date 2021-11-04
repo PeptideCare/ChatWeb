@@ -23,13 +23,18 @@ public class ChatItemService {
     private final ChatRepository chatRepository;
 
     // 방 입장
+    @Transactional
     public void save(Member member, Long chat_id) {
         Chat findChat = chatRepository.findById(chat_id);
 
+        boolean check = chatItemRepository.findByUserIdAndChatId(member.getId(), chat_id);
+
+        // 이미 존재
+        if (!check) return;
+
         // 인원수 초과
-        if (findChat.getMax_num() <= findChat.getNow_num()) {
-            return;
-        }
+        if (findChat.getMax_num() <= findChat.getNow_num()) return;
+
         //인원수 +1
         findChat.plus();
 

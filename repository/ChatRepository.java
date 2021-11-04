@@ -44,4 +44,12 @@ public class ChatRepository {
                 .getResultList();
     }
 
+    //검색으로 모든 방 조회
+    public List<Chat> findAllBySearch(String Search, String schoolName) {
+        return em.createQuery("select c from Chat c where c.school_name like :Search and c.school_name = :schoolName")
+                .setParameter("Search", Search)
+                .setParameter("schoolName", schoolName)
+                .getResultList();
+    }
+
 }

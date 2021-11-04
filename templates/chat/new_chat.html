@@ -17,8 +17,8 @@
            <p><span>N</span>ew <span>C</span>hatting</p>
        </div>
        
-       <form action="">
-           <input type="text" name="search" placeholder="채팅방 검색">
+       <form action="/chat/find/new/search" th:object="${search}">
+           <input type="text" name="search"  placeholder="채팅방 검색" th:field="*{search}">
            <button>검색</button>
        </form>
        

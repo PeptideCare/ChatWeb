@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manner Matter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/room.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+
+   <div class="title">
+        <a href="/chat/find/mine"><i class="fas fa-backward"></i></a>
+        <label for="roomId" class="label label-default"></label>
+        <label th:text="*{room.roomId}" id="roomId" class="form-inline"></label>
+        <label for="roomName" class="label label-default"></label>
+        <br>
+        <label th:text="*{room.name}" id="roomName" class="form-inline"></label>   
+    </div>
+    
+    <div id = "chatroom"></div>
+    <input type = "text" id = "message" placeholder="내용을 입력하세요" autofocus>
+    <button class = "btn btn-primary" id = "send">전송</button>
+
+</div>
+<script>
+
+</script>
+</body>
+<script th:inline = "javascript">
+    var webSocket;
+
+    /* <![CDATA[*/
+    var nickname = /*[[${roomForm.memberNickname}]]*/;
+    /* ]]> */
+
+    /* <![CDATA[*/
+    var roomId = /*[[${room.roomId}]]*/;
+    /* ]]> */
+
+    connect();
+
+    document.getElementById("send").addEventListener("click",function(){
+        send();
+    })
+    function connect(){
+        webSocket = new WebSocket("ws://localhost:8080/chat");
+        webSocket.onopen = onOpen;
+        webSocket.onclose = onClose;
+        webSocket.onmessage = onMessage;
+    }
+    function disconnect(){
+        webSocket.send(JSON.stringify({chatRoomId : roomId,type:'LEAVE',writer:nickname}));
+        webSocket.close();
+    }
+    function send(){
+        msg = document.getElementById("message").value;
+        webSocket.send(JSON.stringify({chatRoomId : roomId,type:'CHAT',writer:nickname,message : msg}));
+        document.getElementById("message").value = "";
+    }
+    function onOpen(){
+        webSocket.send(JSON.stringify({chatRoomId : roomId,type:'ENTER',writer:nickname}));
+    }
+    function onMessage(e){
+        data = e.data;
+        chatroom = document.getElementById("chatroom");
+        chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
+    }
+    function onClose(){
+        disconnect();
+    }
+
+</script>
+</html>

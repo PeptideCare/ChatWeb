@@ -16,6 +16,8 @@ public class MemberForm {
     private String name;
     @NotEmpty(message = "성별은 필수 입니다.")
     private String sex;
+    @NotEmpty(message = "닉네임은 필수 입니다.")
+    private String nickname;
     private String birth;
     @NotEmpty(message = "핸드폰번호는 필수 입니다.")
     private String phone_number;
