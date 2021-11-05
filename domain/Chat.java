@@ -31,6 +31,9 @@ public class Chat {
     @OneToMany(mappedBy = "chat")
     private List<ChatItem> chatItem;
 
+    @OneToMany(mappedBy = "chat")
+    private List<Message> message;
+
     //인원수 +1
     public void plus() {
         this.now_num += 1;

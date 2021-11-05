@@ -42,6 +42,11 @@ public class ChatItemService {
         chatItemRepository.save(chatItem);
     }
 
+    // 회원별 검색으로 모든 채팅방 조회
+    public List<ChatItem> findAllBySearch(String memberId, String search) {
+        return chatItemRepository.findAllBySearch(memberId, search);
+    }
+
     // 회원별 모든 방 조회
     public List<ChatItem> findAllById(String id) {
         return chatItemRepository.findAllById(id);

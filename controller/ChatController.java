@@ -1,13 +1,11 @@
 package com.imdev.webchat.controller;
 
-import com.imdev.webchat.domain.Chat;
-import com.imdev.webchat.domain.ChatItem;
-import com.imdev.webchat.domain.Member;
+import com.imdev.webchat.domain.*;
 import com.imdev.webchat.service.ChatItemService;
 import com.imdev.webchat.service.ChatService;
 import com.imdev.webchat.service.MemberService;
-import com.imdev.webchat.domain.ChatRoom;
 import com.imdev.webchat.repository.ChatRoomRepository;
+import com.imdev.webchat.service.MessageService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -29,6 +28,7 @@ public class ChatController {
     private final ChatItemService chatItemService;
     private final MemberService memberService;
     private final ChatRoomRepository chatRoomRepository;
+    private final MessageService messageService;
 
     // 방만들기
     @GetMapping("/chat/insert")
@@ -73,6 +73,7 @@ public class ChatController {
         String memberId = (String)session.getAttribute("memberId");
         List<ChatItem> chats = chatItemService.findAllById(memberId);
         model.addAttribute("chatList", chats);
+        model.addAttribute("search", new SearchForm());
 
         return "chat/main";
     }
@@ -81,36 +82,82 @@ public class ChatController {
     @GetMapping("/chat/enter/{id}")
     public String chat(@PathVariable Long id, Model model, HttpSession session) {
 
+        // 들어간 채팅방 번호 세션 입력
+        session.setAttribute("chatId", id);
+
         String memberId = (String)session.getAttribute("memberId");
         Member findMember = memberService.findById(memberId).get();
 
+        // 채팅방 저장
         chatItemService.save(findMember, id);
 
-        // 웹소켓 방 불러오기
-        ChatRoom room = chatRoomRepository.findRoomById(id);
+        // 메시지들 출력
+        List<Message> findMessage = messageService.findAllByChatId(id);
+        model.addAttribute("messageList", findMessage);
 
-        model.addAttribute("room", room);
+        // 메시지 받기 위한 form
+        model.addAttribute("form", new MessageForm());
 
-        // 멤버 닉네임 보내기
-        RoomForm roomForm = new RoomForm();
-        roomForm.setMemberNickname(findMember.getNickname());
 
-        model.addAttribute("roomForm", roomForm);
-        return "chat/room";
+//        // 웹소켓 방 불러오기
+//        ChatRoom room = chatRoomRepository.findRoomById(id);
+//
+//        model.addAttribute("room", room);
+//
+//        // 멤버 닉네임 보내기
+//        RoomForm roomForm = new RoomForm();
+//        roomForm.setMemberNickname(findMember.getNickname());
+//
+//        model.addAttribute("roomForm", roomForm);
+        return "chat/chat";
     }
 
     // 검색별 모든 채팅 불러오기
-    @GetMapping("chat/find/new/search")
-    public String findNewByName(SearchForm form, Model model, HttpSession session) {
+    @GetMapping("/chat/find/new/search")
+    public String findNewBySearch(SearchForm form, Model model, HttpSession session) {
 
         String memberId = (String)session.getAttribute("memberId");
         Member findMember = memberService.findById(memberId).get();
 
-        System.out.println("ㄹㄹㄹ");
+        model.addAttribute("search", new SearchForm());
 
         // 검색 내용별로 불러오기
         List<Chat> chats = chatService.findAllBySearch(form.getSearch(), findMember.getSchool_name());
         model.addAttribute("chatList", chats);
-        return "chat/new_chat";
+        return "chat/new_chat_search";
+    }
+
+    // 검색별 내 채팅 불러오기
+    @GetMapping("/chat/find/mine/search")
+    public String findMineBySearch(SearchForm form, Model model, HttpSession session) {
+        String memberId = (String)session.getAttribute("memberId");
+
+        model.addAttribute("search", new SearchForm());
+
+        // 검색별 내 채팅 불러오기
+        List<ChatItem> chats = chatItemService.findAllBySearch(memberId, form.getSearch());
+        model.addAttribute("chatList", chats);
+
+        return "chat/main_search";
+    }
+
+    // 메세지 입력
+    @PostMapping("/chat/message")
+    public String message(MessageForm form, HttpSession session, Model model) {
+
+        // 회원 불러오기
+        String memberId = (String) session.getAttribute("memberId");
+        Member findMember = memberService.findById(memberId).get();
+
+        // 채팅방 불러오기
+        Long chatId = (Long) session.getAttribute("chatId");
+        Chat findChat = chatService.findById(chatId);
+
+        // 메시지 저장
+        Message message = new Message(form.getMessage(), LocalDateTime.now(), findMember, findChat);
+        messageService.save(message);
+
+        return "redirect:/chat/enter/" + chatId;
+
     }
 }

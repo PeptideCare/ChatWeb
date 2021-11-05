@@ -49,6 +49,14 @@ public class ChatItemRepository {
         return check;
     }
 
+    //회원아이디, 검색으로 불러오기
+    public List<ChatItem> findAllBySearch(String memberId, String search) {
+        return em.createQuery("select ci from ChatItem ci where ci.member.id = :memberId and ci.chat.name like :search")
+                .setParameter("memberId", memberId)
+                .setParameter("search", "%"+search+"%")
+                .getResultList();
+    }
+
     //삭제
     public void delete(Chat chat) {
         em.remove(chat);
