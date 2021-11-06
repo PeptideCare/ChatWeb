@@ -4,7 +4,7 @@ import com.imdev.webchat.domain.*;
 import com.imdev.webchat.service.ChatItemService;
 import com.imdev.webchat.service.ChatService;
 import com.imdev.webchat.service.MemberService;
-import com.imdev.webchat.repository.ChatRoomRepository;
+import com.imdev.webchat.repository.ReportRepository;
 import com.imdev.webchat.service.MessageService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ChatController {
     private final ChatService chatService;
     private final ChatItemService chatItemService;
     private final MemberService memberService;
-    private final ChatRoomRepository chatRoomRepository;
+    private final ReportRepository chatRoomRepository;
     private final MessageService messageService;
 
     // 방만들기
@@ -44,9 +44,6 @@ public class ChatController {
 
         Chat chat = new Chat(form.getName(), form.getMax_num(), 1, findMember.getSchool_name());
         chatService.save(chat, findMember);
-
-        // 웹소켓방 생성
-        chatRoomRepository.createChatRoom(chat.getId(), form.getName());
 
         return "redirect:/chat/find/mine";
     }
@@ -95,20 +92,13 @@ public class ChatController {
         List<Message> findMessage = messageService.findAllByChatId(id);
         model.addAttribute("messageList", findMessage);
 
+        // 채팅방 정보 출력
+        Chat findChat = chatService.findById(id);
+        model.addAttribute("chat", findChat);
+
         // 메시지 받기 위한 form
         model.addAttribute("form", new MessageForm());
 
-
-//        // 웹소켓 방 불러오기
-//        ChatRoom room = chatRoomRepository.findRoomById(id);
-//
-//        model.addAttribute("room", room);
-//
-//        // 멤버 닉네임 보내기
-//        RoomForm roomForm = new RoomForm();
-//        roomForm.setMemberNickname(findMember.getNickname());
-//
-//        model.addAttribute("roomForm", roomForm);
         return "chat/chat";
     }
 
@@ -143,7 +133,7 @@ public class ChatController {
 
     // 메세지 입력
     @PostMapping("/chat/message")
-    public String message(MessageForm form, HttpSession session, Model model) {
+    public String message(MessageForm form, HttpSession session) {
 
         // 회원 불러오기
         String memberId = (String) session.getAttribute("memberId");

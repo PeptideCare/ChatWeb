@@ -5,23 +5,26 @@
     <title>Manner Matter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/room.css}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/chat.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
 
 </head>
 <body>
 <div class="container">
 
-   <div class="title">
-        <a href="/chat/find/mine"><i class="fas fa-backward"></i></a>
-    </div>
+   <div class="title" th:object="${chat}">
+        <a href="/chat/find/mine"><i id="back" class="fas fa-backward"></i></a>
+        <p th:text="*{id}"></p>
+        <p th:text="*{name}"></p>
+        <a href="/report/new"><i id="reporticon" class="fa-solid fa-comment"></i></a>
+   </div>
     
     <div id = "chatroom">
         <table>
             <tr th:each="item : ${messageList}">
-                <td th:text="${item.member.nickname}"> : </td>
+                <td th:text="${item.member.nickname}"></td>
+                <td> : </td>
                 <td th:text="${item.message}"></td>
             </tr>
         </table>
@@ -31,7 +34,24 @@
         <input type = "text" th:field="*{message}" placeholder="내용을 입력하세요" autofocus >
         <button class = "btn btn-primary" id = "send">전송</button>
     </form>
+    <div class="report">
+        관리자에게 보낼 내용을 입력하세요 <br>
+        (ex 유저 신고, 버그 신고)
+        <div class="reportroom">
 
+        </div>
+        <div class="reportinput">
+            <input type="text" placeholder="내용을 입력하세요." autofocus>
+            <button>전송</button>
+        </div>
+    </div>
 </div>
+
+<script>
+    $('#reporticon').click(function(){
+        $('.report').fadeToggle();
+    });
+</script>
+
 </body>
 </html>

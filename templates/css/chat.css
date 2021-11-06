@@ -11,66 +11,117 @@ body {
 }
 
 .container {
+    font-size: 15px;
     max-width: 350px;
     width: 350px;
-}
-.title {
-    width: 100%;
-    position: relative;
-    margin-bottom: 200px;
+    text-align: center;
 }
 
-.title p{
+.title {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+.title p:nth-of-type(1){
     font-size: 20px;
     margin: 0;
 }
 
-.title p:nth-child(2) {
+.title p:nth-of-type(2) {
     font-size: 30px;
+    margin: 0;
 }
 
-.title i {
+.title #back{
     position: absolute;
     top: 0;
     left: 0;
     font-size: 20px;
     margin: 5px;
     cursor: pointer;
-    color: black;
+    color: burlywood;
 }
 
-.chat {
-    float: left;
-    overflow: hidden;
-}
-
-.chat p{
-    margin: 0;
-}
-
-.info input {
-    display: block;
-    padding: 5px;
-    width: 95%;
-    height: 200px;
-    margin: 10px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    border: 1px solid #b7a93b;
-    font-family: 'East Sea Dokdo', cursive;
-    font-size: 20px;
-}
-
-
-.info form button{
-    width: 40%;
-    border: 1px solid;
-    padding: 7px 10px 7px 10px;
-    background-color: wheat;
-    border-radius: 5px;
-    margin: 10px;
+.title #reporticon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 25px;
+    margin: 5px;
     cursor: pointer;
-    font-family: 'East Sea Dokdo', cursive;
+    color: burlywood;
+}
+
+#chatroom {
+    position: relative;
+    background-color: antiquewhite;
+    border-radius: 5px;
+    width: 90%;
+    height: 500px;
+    border: 1px solid;
+    margin: 5px;
+    display: inline-block;
     font-size: 20px;
-    margin-top: 20px;
+    text-align: left;
+    overflow: auto;
+    padding: 5px;
+}
+
+.report {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 50%;
+    background-color: rgb(161, 209, 194);
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid;
+}
+
+.reportroom {
+    padding: 0px 10px;
+    text-align: left;
+    height: 220px;
+    overflow: auto;
+}
+
+.reportinput {
+    display: inline-block;
+}
+
+.reportinput input{
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 17px;
+    border-radius: 5px;
+}
+
+.reportinput button {
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 17px;
+    background-color: bisque;
+    border-radius: 5px;
+}
+
+form input {
+    font-family: 'East Sea Dokdo', cursive;
+    border: 1px solid #c18d47;
+    border-radius: 5px;
+    width: 60%;
+    padding: 5px;
+    font-size: 18px;
+}
+
+form button {
+    font-family: 'East Sea Dokdo', cursive;
+    border: 1px solid black;
+    background-color: bisque;
+    border-radius: 5px;
+    width: 20%;
+    padding: 5px;
+    font-size: 18px;
+    cursor: pointer;
 }
