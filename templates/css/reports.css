@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    border: 1px solid;
+    width: 600px;
+}
+
+
+table th {
+    border: 1px solid;
+}
+
+table th:nth-child(1) {
+    width: 400px;
+}
+
+table th:nth-child(2) {
+    width: 100px;
+}
+
+table th:nth-child(3) {
+    width: 100px;
+}
+
+table td {
+    border: 1px solid;
+}
+
+table td:nth-child(3) {
+    background-color: darksalmon;
+    cursor: pointer;
+}

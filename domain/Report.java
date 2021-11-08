@@ -29,6 +29,7 @@ public class Report {
                               ObjectMapper objectMapper) throws IOException {
         if(chatMessage.getType() == MessageType.ENTER){
             sessions.add(session);
+            chatMessage.setMessage("입장하셨습니다");
         }
         else if(chatMessage.getType() == MessageType.LEAVE){
             sessions.remove(session);

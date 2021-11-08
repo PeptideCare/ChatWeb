@@ -4,14 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8" />
     <title>관리자님 환영합니다!</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/reports.css}">
 
-    <!-- 부가적인 테마 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 </head>
 
@@ -31,7 +26,7 @@
             <td th:text="${report.reportId}"></td>
             <td th:text="${report.memberId}"></td>
             <td>
-                <a class = "btn btn-primary" th:href = "@{/report/{id} (id = ${report.reportId})}"></a>
+                <a class = "btn btn-primary" th:href = "@{/report/{id} (id = ${report.reportId})}">입장</a>
             </td>
         </tr>
         </tbody>

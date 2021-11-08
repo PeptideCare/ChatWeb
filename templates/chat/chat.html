@@ -17,7 +17,7 @@
         <a href="/chat/find/mine"><i id="back" class="fas fa-backward"></i></a>
         <p th:text="*{id}"></p>
         <p th:text="*{name}"></p>
-        <a href="/report/new"><i id="reporticon" class="fa-solid fa-comment"></i></a>
+        <i id="reporticon" class="fa-solid fa-comment"></i>
    </div>
     
     <div id = "chatroom">
@@ -32,25 +32,68 @@
     </div>
     <form action="/chat/message" th:object="${form}" method="post">
         <input type = "text" th:field="*{message}" placeholder="내용을 입력하세요" autofocus >
-        <button class = "btn btn-primary" id = "send">전송</button>
+        <button>전송</button>
     </form>
     <div class="report">
         관리자에게 보낼 내용을 입력하세요 <br>
         (ex 유저 신고, 버그 신고)
-        <div class="reportroom">
+        <div id="reportroom">
 
         </div>
         <div class="reportinput">
-            <input type="text" placeholder="내용을 입력하세요." autofocus>
-            <button>전송</button>
+            <input type="text" id="report_message" placeholder="내용을 입력하세요." autofocus>
+            <button id="send">전송</button>
         </div>
     </div>
 </div>
 
-<script>
+<script th:inline = "javascript">
     $('#reporticon').click(function(){
         $('.report').fadeToggle();
     });
+
+    var webSocket;
+
+    /* <![CDATA[*/
+    var memberId = /*[[${report.memberId}]]*/;
+    /* ]]> */
+
+    /* <![CDATA[*/
+    var reportId = /*[[${report.reportId}]]*/;
+    /* ]]> */
+
+    connect();
+
+    document.getElementById("send").addEventListener("click",function(){
+        send();
+    })
+    function connect(){
+        webSocket = new WebSocket("ws://localhost:8080/chat");
+        webSocket.onopen = onOpen;
+        webSocket.onclose = onClose;
+        webSocket.onmessage = onMessage;
+    }
+    function disconnect(){
+        webSocket.send(JSON.stringify({reportId : reportId, type:'LEAVE',writer:memberId}));
+        webSocket.close();
+    }
+    function send(){
+        msg = document.getElementById("report_message").value;
+        webSocket.send(JSON.stringify({reportId : reportId,type:'CHAT',writer:memberId, message : msg}));
+        document.getElementById("report_message").value = "";
+    }
+    function onOpen(){
+        webSocket.send(JSON.stringify({reportId : reportId,type:'ENTER',writer:memberId}));
+    }
+    function onMessage(e){
+        data = e.data;
+        reportroom = document.getElementById("reportroom");
+        reportroom.innerHTML = reportroom.innerHTML + "<br>" + data;
+    }
+    function onClose(){
+        disconnect();
+    }
+
 </script>
 
 </body>

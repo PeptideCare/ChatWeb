@@ -25,5 +25,16 @@
        </div>
    </div>
 
+   <script th:inline = "javascript">
+       /* <![CDATA[*/
+       var message = /*[[${message}]]*/;
+       /* ]]> */
+
+       if (message != null) {
+           alert(message);
+       }
+
+   </script>
+
 </body>
 </html>

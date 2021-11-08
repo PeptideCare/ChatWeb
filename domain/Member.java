@@ -34,7 +34,7 @@ public class Member {
     private String phone_number;
     private String school_name;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<ChatItem> chatItem;
 
     // 닉네임 변경

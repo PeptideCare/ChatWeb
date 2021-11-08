@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Manner Matter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,10 +26,15 @@
            <table>
                <th>No.</th>
                <th>Name</th>
+               <th>Count</th>
                <th> </th>
                <tr th:each="item : ${chatList}">
                    <td th:text="${item.chat.id}"></td>
                    <td th:text="${item.chat.name}">이름</td>
+                   <td>
+                       <span th:text="${item.chat.now_num}"></span>
+                       /
+                       <span th:text="${item.chat.max_num}"></span></td>
                    <td>
                        <a href="#" th:href="@{/chat/enter/{id}/(id=${item.chat.id})}">입장</a>
                    </td>
@@ -41,6 +46,17 @@
        <a href="/chat/find/new"><button>방둘러보기</button></a>
        
    </div>
+
+   <script th:inline = "javascript">
+       /* <![CDATA[*/
+       var message = /*[[${message}]]*/;
+       /* ]]> */
+
+       if (message != null) {
+           alert(message);
+       }
+
+   </script>
     
 </body>
 </html>

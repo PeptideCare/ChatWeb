@@ -29,6 +29,7 @@ public class ChatController {
     private final MemberService memberService;
     private final ReportRepository chatRoomRepository;
     private final MessageService messageService;
+    private final ReportRepository reportRepository;
 
     // 방만들기
     @GetMapping("/chat/insert")
@@ -45,12 +46,19 @@ public class ChatController {
         Chat chat = new Chat(form.getName(), form.getMax_num(), 1, findMember.getSchool_name());
         chatService.save(chat, findMember);
 
+        // 채팅방 생성 알림
+        session.setAttribute("message", "채팅방이 생성되었습니다.");
+
         return "redirect:/chat/find/mine";
     }
 
     // 학교별 모든 방 조회
     @GetMapping("/chat/find/new")
     public String findAll(Model model, HttpSession session) {
+
+        // 채팅방 입장여부 알림
+        model.addAttribute("message", session.getAttribute("message"));
+        session.removeAttribute("message");
 
         // 접속해있는 회원의 학교이름 불러오기
         String memberId = (String)session.getAttribute("memberId");
@@ -72,6 +80,10 @@ public class ChatController {
         model.addAttribute("chatList", chats);
         model.addAttribute("search", new SearchForm());
 
+        // 채팅방 생성 후 알림
+        model.addAttribute("message", session.getAttribute("message"));
+        session.removeAttribute("message");
+
         return "chat/main";
     }
 
@@ -86,7 +98,13 @@ public class ChatController {
         Member findMember = memberService.findById(memberId).get();
 
         // 채팅방 저장
-        chatItemService.save(findMember, id);
+        String check = chatItemService.save(findMember, id);
+
+        // 인원수 초과 채팅방
+        if (check.equals("1")) {
+            session.setAttribute("message", "인원수가 초과되었습니다.");
+            return "redirect:/chat/find/new";
+        }
 
         // 메시지들 출력
         List<Message> findMessage = messageService.findAllByChatId(id);
@@ -98,6 +116,10 @@ public class ChatController {
 
         // 메시지 받기 위한 form
         model.addAttribute("form", new MessageForm());
+
+        // 웹소켓 방 생성
+        Report report = reportRepository.createReport(memberId);
+        model.addAttribute("report", report);
 
         return "chat/chat";
     }

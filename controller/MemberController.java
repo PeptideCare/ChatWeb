@@ -3,6 +3,7 @@ package com.imdev.webchat.controller;
 import com.imdev.webchat.domain.Member;
 import com.imdev.webchat.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping("/member/new")
-    public String join(@Valid MemberForm form, BindingResult result) {
+    public String join(@Valid MemberForm form, BindingResult result, HttpSession session) {
 
         if (result.hasErrors()) {
             return "member/join";
@@ -40,21 +41,24 @@ public class MemberController {
 
         //중복회원
         if (id.equals("0")) {
-            return "redirect:/member/mine";
-        } else {
+            session.setAttribute("message", "이미 존재하는 회원입니다.");
+            return "redirect:/member/login";
         }
+        session.setAttribute("message", "회원가입에 성공하셨습니다.");
         return "redirect:/member/login";
     }
 
     //로그인
     @GetMapping("/member/login")
-    public String loginForm(Model model) {
+    public String loginForm(Model model, HttpSession session) {
+        model.addAttribute("message", session.getAttribute("message"));
+        session.invalidate();
         model.addAttribute("member", new Member());
         return "member/login";
     }
 
     @PostMapping("/member/login")
-    public String login(@Valid Member form, BindingResult result, HttpSession session) {
+    public String login(@Valid Member form, BindingResult result, HttpSession session, Model model) {
 
         if (result.hasErrors()) {
             return "member/login";
@@ -67,6 +71,7 @@ public class MemberController {
 
         // 회원이 아닐 시
         if (findMember.isEmpty()) {
+            model.addAttribute("message", "존재하지 않는 회원입니다.");
             return "member/login";
         }
         // 로그인 성공
@@ -76,6 +81,7 @@ public class MemberController {
         }
         // 비밀번호 일치하지 않을 시
         else {
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "member/login";
         }
     }
@@ -89,7 +95,7 @@ public class MemberController {
 
     // 비밀번호 변경 이동
     @PostMapping("/member/change")
-    public String check_pw(@Valid Member member, HttpSession session) {
+    public String check_pw(@Valid Member member, HttpSession session, Model model) {
 
         String id = (String)session.getAttribute("memberId");
         Member findMember = memberService.findById(id).get();
@@ -101,24 +107,26 @@ public class MemberController {
         }
         // 불일치
         else {
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "member/check_info";
         }
     }
 
     // 회원탈퇴 이동
     @PostMapping("/member/remove")
-    public String check_remove(@Valid Member member, HttpSession session) {
+    public String check_remove(@Valid Member member, HttpSession session, Model model) {
 
         String id = (String)session.getAttribute("memberId");
-        Member findMemer = memberService.findById(id).get();
+        Member findMember = memberService.findById(id).get();
 
         // 비밀번호 일치
-        if (findMemer.getPw().equals(member.getPw())) {
+        if (findMember.getPw().equals(member.getPw())) {
             // 회원탈퇴 이동
             return "redirect:/member/remove_con";
         }
         // 불일치
         else {
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "member/check_info";
         }
     }
@@ -131,11 +139,13 @@ public class MemberController {
     }
 
     @PostMapping("/member/change_con")
-    public String change(@Valid Member member, BindingResult result, HttpSession session) {
+    public String change(@Valid Member member, BindingResult result, HttpSession session, Model model) {
         String id = (String)session.getAttribute("memberId");
 
         // 변경감지
         memberService.change_pw(id, member.getPw());
+
+        model.addAttribute("message", "비밀번호가 변경되었습니다.");
         return "member/login";
     }
 
@@ -147,17 +157,19 @@ public class MemberController {
     }
 
     @PostMapping("/member/remove_con")
-    public String remove(@Valid Member member, HttpSession session) {
+    public String remove(@Valid Member member, HttpSession session, Model model) {
         String id = (String)session.getAttribute("memberId");
 
         Member findMember = memberService.findById(id).get();
         // 비밀번호 일치
         if (findMember.getPw().equals(member.getPw())) {
             memberService.remove(id);
+            model.addAttribute("message", "회원탈퇴가 완료되었습니다.");
             return "member/login";
         }
         // 불일치
         else {
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "member/remove_member";
         }
 

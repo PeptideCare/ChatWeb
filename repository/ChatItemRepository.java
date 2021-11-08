@@ -58,7 +58,7 @@ public class ChatItemRepository {
     }
 
     //삭제
-    public void delete(Chat chat) {
-        em.remove(chat);
+    public void delete(ChatItem chatItem) {
+        em.remove(chatItem);
     }
 }

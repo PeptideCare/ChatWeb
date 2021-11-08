@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.util.List;
 
 @Controller
@@ -34,11 +33,4 @@ public class ReportController {
         return "admin/report";
     }
 
-    // 신고방 만들기(유저)
-    @GetMapping("/report/new")
-    public String make(HttpSession session){
-        String memberId = (String) session.getAttribute("memberId");
-        reportRepository.createReport(memberId);
-        return "chat/chat";
-    }
 }
