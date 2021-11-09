@@ -3,13 +3,10 @@ package com.imdev.webchat.controller;
 import com.imdev.webchat.domain.Member;
 import com.imdev.webchat.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -23,7 +20,9 @@ public class MemberController {
 
     //회원가입
     @GetMapping("/member/new")
-    public String joinForm(Model model) {
+    public String joinForm(Model model, HttpSession session) {
+        model.addAttribute("message", session.getAttribute("message"));
+        session.invalidate();
         model.addAttribute("member", new MemberForm());
         return "member/join";
     }
@@ -35,14 +34,25 @@ public class MemberController {
             return "member/join";
         }
 
+        // 유효성 체크
+        if (form.getId().isEmpty() || form.getPw().isEmpty() || form.getBirth().isEmpty() || form.getName().isEmpty()
+                || form.getNickname().isEmpty() || form.getPhone_number().isEmpty() || form.getSex().isEmpty()
+                || form.getSchool_name().isEmpty()) {
+            session.setAttribute("message", "모든 값은 필수값입니다.");
+            return "redirect:/member/new";
+        }
+
         Member member = new Member(form.getId(), form.getPw(),
                 form.getName(), form.getNickname(), form.getSex(), form.getBirth(), form.getPhone_number(), form.getSchool_name());
         String id = memberService.join(member);
 
         //중복회원
         if (id.equals("0")) {
-            session.setAttribute("message", "이미 존재하는 회원입니다.");
-            return "redirect:/member/login";
+            session.setAttribute("message", "이미 존재하는 ID 입니다.");
+            return "redirect:/member/new";
+        } else if (id.equals("1")) {
+            session.setAttribute("message", "이미 존재하는 닉네임 입니다.");
+            return "redirect:/member/new";
         }
         session.setAttribute("message", "회원가입에 성공하셨습니다.");
         return "redirect:/member/login";
@@ -172,8 +182,34 @@ public class MemberController {
             model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "member/remove_member";
         }
+    }
 
+    // ID 중복확인
+    @PostMapping("/member/confirm/id")
+    @ResponseBody
+    public String confirmId(String memberId) {
+        // 가능한 ID
+        if (memberService.findById(memberId).isEmpty()) {
+            return "true";
+        }
+        // 불가능
+        else {
+            return "false";
+        }
+    }
 
+    // 닉네임 중복확인
+    @PostMapping("/member/confirm/nickname")
+    @ResponseBody
+    public String confirmNickname(String memberNickname) {
+        // 가능한 닉네임
+        if (memberService.check(memberNickname)) {
+            return "true";
+        }
+        // 불가능
+        else {
+            return "false";
+        }
     }
 
 }

@@ -37,6 +37,14 @@ public class MemberRepository {
         return member;
     }
 
+    // 닉네임으로 체크
+    public boolean findByNickname(String nickname) {
+
+        return em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
+                .setParameter("nickname", nickname)
+                .getResultList().isEmpty();
+    }
+
     //전체 멤버 조회
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)

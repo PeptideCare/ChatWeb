@@ -55,15 +55,27 @@ body {
     display: inline-block;
 }
 
-.check_id input:nth-child(1),
+.info #input_id_1,
+.info #input_nickname_1{
+    display: none;
+    margin: -15px 0 0 0;
+    color: green;
+}
+
+.info #input_id_2,
+.info #input_nickname_2 {
+    color: red;
+    margin: -15px 0 0 0;
+    display: none;
+}
+
 .check_phone input:nth-child(1),
-.check_nickname input:nth-child(1){
+.check_school input:nth-child(1){
     width: 60%;
 }
 
-.check_id input:nth-child(2),
 .check_phone input:nth-child(2),
-.check_nickname input:nth-child(2){
+.check_school input:nth-child(2){
     width: 20%;
     background-color: antiquewhite;
     cursor: pointer;

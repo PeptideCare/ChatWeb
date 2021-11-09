@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../css/join.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
    
@@ -19,27 +20,83 @@
        
        <div class="info">
            <form action="/member/new" th:object="${member}" method="post">
-              <div class="check_id">
-                   <input type="text" placeholder="ID" th:field="*{id}">
-                   <input type="submit" value="중복확인">
-               </div>
+               <input type="text" id="input_id" placeholder="ID" th:field="*{id}">
+               <p id="input_id_1">사용가능한 ID 입니다.</p>
+               <p id="input_id_2">이미 존재하는 ID 입니다.</p>
                <input type="password" placeholder="PW" th:field="*{pw}">
                <input type="text" placeholder="이름" th:field="*{name}">
                <input type="text" placeholder="성별 ex) 남,여" th:field="*{sex}">
-               <div class="check_nickname">
-                   <input type="text" placeholder="닉네임" th:field="*{nickname}">
-                   <input type="submit" value="중복확인">
-               </div>
+               <input type="text" id="input_nickname" placeholder="닉네임" th:field="*{nickname}">
+               <p id="input_nickname_1">사용가능한 닉네임 입니다.</p>
+               <p id="input_nickname_2">이미 존재하는 닉네임 입니다.</p>
                <input type="number" placeholder="생년월일 ex) 010101" th:field="*{birth}">
                <div class="check_phone">
                    <input type="number" placeholder="핸드폰번호" th:field="*{phone_number}">
                    <input type="submit" value="인증">
                </div>
-               <input type="text"  placeholder="학교명" th:field="*{school_name}">
+               <div class="check_school">
+                   <input type="text"  placeholder="학교명" th:field="*{school_name}">
+                   <input type="submit" value="찾아보기">
+               </div>
                <button>회원가입</button>
            </form>
        </div>
    </div>
-    
+
+   <script th:inline = "javascript">
+       /* <![CDATA[*/
+       var message = /*[[${message}]]*/;
+       /* ]]> */
+
+       if (message != null) {
+           alert(message);
+       }
+
+       // ID 체크
+       $('#input_id').on("propertychange change keyup paste input", function () {
+
+           var memberId = $('#input_id').val();
+           var data = {memberId : memberId};
+
+           $.ajax({
+               type : "post",
+               url : "/member/confirm/id",
+               data : data,
+               success : function (result) {
+                   if (result != 'false') {
+                       $('#input_id_1').css("display", "block");
+                       $('#input_id_2').css("display", "none");
+                   } else {
+                       $('#input_id_2').css("display", "block");
+                       $('#input_id_1').css("display", "none");
+                   }
+               }
+           });
+       })
+
+       // 닉네임 체크
+       $('#input_nickname').on("propertychange change keyup paste input", function () {
+
+           var memberNickname = $('#input_nickname').val();
+           var data = {memberNickname : memberNickname};
+
+           $.ajax({
+               type : "post",
+               url : "/member/confirm/nickname",
+               data : data,
+               success : function (result) {
+                   if (result != 'false') {
+                       $('#input_nickname_1').css("display", "block");
+                       $('#input_nickname_2').css("display", "none");
+                   } else {
+                       $('#input_nickname_2').css("display", "block");
+                       $('#input_nickname_1').css("display", "none");
+                   }
+               }
+           });
+       })
+
+   </script>
+
 </body>
 </html>
