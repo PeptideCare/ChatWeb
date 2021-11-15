@@ -22,13 +22,13 @@
            <form action="/member/new" th:object="${member}" method="post">
                <input type="text" id="input_id" placeholder="ID" th:field="*{id}">
                <p id="input_id_1">사용가능한 ID 입니다.</p>
-               <p id="input_id_2">이미 존재하는 ID 입니다.</p>
+               <p id="input_id_2">ID가 짧거나 이미 존재하는 ID 입니다.</p>
                <input type="password" placeholder="PW" th:field="*{pw}">
                <input type="text" placeholder="이름" th:field="*{name}">
                <input type="text" placeholder="성별 ex) 남,여" th:field="*{sex}">
                <input type="text" id="input_nickname" placeholder="닉네임" th:field="*{nickname}">
                <p id="input_nickname_1">사용가능한 닉네임 입니다.</p>
-               <p id="input_nickname_2">이미 존재하는 닉네임 입니다.</p>
+               <p id="input_nickname_2">닉네임이 짧거나 이미 존재하는 닉네임 입니다.</p>
                <input type="number" placeholder="생년월일 ex) 010101" th:field="*{birth}">
                <div class="check_phone">
                    <input type="number" placeholder="핸드폰번호" th:field="*{phone_number}">
@@ -36,14 +36,55 @@
                </div>
                <div class="check_school">
                    <input type="text"  placeholder="학교명" th:field="*{school_name}">
-                   <input type="submit" value="찾아보기">
+                   <div class="search_school_btn">
+                       찾아보기
+                   </div>
                </div>
                <button>회원가입</button>
            </form>
+           <div class="search_school">
+               <i id="close_btn" class="fas fa-times"></i>
+               <input id="input_school" type="text" autofocus>
+               <div id="school_list">
+
+               </div>
+           </div>
        </div>
    </div>
 
+   <script>
+       $('.search_school_btn').click(function(){
+           $('.search_school').css("display", "block");
+       })
+
+       $('#close_btn').click(function(){
+           $('.search_school').css("display", "none");
+       })
+   </script>
+
    <script th:inline = "javascript">
+
+       $('#input_school').on("propertychange change keyup paste input", function () {
+
+           var search = $('#input_school').val();
+           let schoolList = document.getElementById("school_list");
+
+           $.ajax({
+               type : "GET",
+               url : "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=7dc46a11dc647d3b4d1f4b72d2a51045&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&searchSchulNm=" + search,
+               data : {},
+               success : function (result) {
+                   schoolList.innerHTML = "";
+                   let schoolInfo = result["dataSearch"]["content"];
+                   for (let i=0; i<schoolInfo.length; i++) {
+                       let schoolName = schoolInfo[i]["schoolName"];
+                       schoolList.innerHTML = schoolList.innerHTML + schoolName + "<br>";
+                   }
+               }
+           })
+       })
+
+
        /* <![CDATA[*/
        var message = /*[[${message}]]*/;
        /* ]]> */
